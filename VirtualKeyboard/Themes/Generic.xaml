@@ -1,0 +1,269 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
+    xmlns:local="clr-namespace:VirtualKeyboard">
+    <LinearGradientBrush x:Key="LightDarkGrayGradientBrush"
+                             StartPoint="0, 0"
+                             EndPoint="0, 1">
+        <GradientStop Color="#585858" Offset="0" />
+        <GradientStop Color="#404040" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="LightDarkGrayGradientBrushPressed"
+                             StartPoint="0, 0"
+                             EndPoint="0, 1">
+        <GradientStop Color="#404040" Offset="0" />
+        <GradientStop Color="#585858" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <Style  x:Key="IOSDarkModeButtonStyle" TargetType="local:VButton">
+        <Setter Property="Height" Value="80" />
+        <Setter Property="CornerRadius" Value="3" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Margin" Value="1.5" />
+        <Setter Property="Background" Value="Blue" />
+    </Style>
+    <Style  x:Key="IOSDarkModeDefaultButtonStyle" 
+            TargetType="local:VButton"
+            BasedOn="{StaticResource IOSDarkModeButtonStyle}">
+        <Setter Property="Width" Value="80" />
+        <Setter Property="Background" Value="#5d5d5e" />
+        <Setter Property="BackgroundPressed" Value="#4f4f4f" />
+        <Setter Property="Foreground" Value="#bbbdbe" />
+        <Setter Property="SecondaryValueForeground" Value="#787878" />
+        <Setter Property="SecondaryValueFontSize" Value="12" />
+        <Setter Property="FontSize" Value="17" />
+        <Setter Property="BorderBrush" Value="{StaticResource LightDarkGrayGradientBrush}" />
+        <Style.Triggers>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter Property="BorderBrush" Value="{StaticResource LightDarkGrayGradientBrushPressed}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style  x:Key="IOSDarkModeSpecialButtonStyle" 
+            TargetType="local:VButton"
+            BasedOn="{StaticResource IOSDarkModeButtonStyle}">
+        <Setter Property="Width" Value="80" />
+        <Setter Property="Background" Value="#3b3b3b" />
+        <Setter Property="BackgroundPressed" Value="#2e2e2e" />
+        <Setter Property="BorderBrush" Value="{StaticResource LightDarkGrayGradientBrush}" />
+        <Setter Property="Foreground" Value="#bbbdbe" />
+        <Style.Triggers>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter Property="BorderBrush" Value="{StaticResource LightDarkGrayGradientBrushPressed}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style  x:Key="IOSDarkModeDefaultLastRowButtonStyle" 
+            TargetType="local:VButton"
+            BasedOn="{StaticResource IOSDarkModeDefaultButtonStyle}">
+        <Setter Property="Width" Value="80" />
+    </Style>
+    <Style x:Key="KeyboardRow" 
+           TargetType="StackPanel">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Orientation" Value="Horizontal" />
+    </Style>
+    <Style x:Key="DefaultIconSizeStyle"
+           TargetType="Image">
+        <Setter Property="Width" Value="30" />
+        <Setter Property="Height" Value="30" />
+    </Style>
+    
+    <Style TargetType="{x:Type local:VButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:VButton}">
+                    <Border CornerRadius="{TemplateBinding CornerRadius}" 
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Margin="{TemplateBinding Margin}">
+                        <StackPanel Name="mainContent"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <ContentPresenter ContentTemplate="{TemplateBinding SecondaryValueTemplate}" 
+                                              Content="{TemplateBinding SecondaryValue}" 
+                                              TextBlock.FontSize="{TemplateBinding SecondaryValueFontSize}"
+                                              TextBlock.Foreground="{TemplateBinding SecondaryValueForeground}" 
+                                              HorizontalAlignment="{TemplateBinding SecondaryValueHorizontalAlignment}"
+                                              VerticalAlignment="{TemplateBinding SecondaryValueVerticalAlignment}"
+                                              Margin="{TemplateBinding SecondaryValueMargin}" />
+                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              Content="{TemplateBinding Content}" 
+                                              TextBlock.FontSize="{TemplateBinding FontSize}"
+                                              TextBlock.Foreground="{TemplateBinding Foreground}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Margin="{TemplateBinding PrimaryValueMargin}" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="mainContent" Property="RenderTransform">
+                                <Setter.Value>
+                                    <TranslateTransform Y="2.0" />
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Background" Value="{Binding BackgroundPressed, RelativeSource={RelativeSource Self}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:VKeyboard}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:VKeyboard}">
+                    <StackPanel Background="#181818"
+                                MaxWidth="920">
+                        <StackPanel Style="{StaticResource KeyboardRow}">
+                            <local:VButton Content="q" 
+                                           SecondaryValue="1" 
+                                           Style="{StaticResource IOSDarkModeDefaultButtonStyle}" />
+                            <local:VButton Content="w" 
+                                           SecondaryValue="2" 
+                                           Style="{StaticResource IOSDarkModeDefaultButtonStyle}" />
+                            <local:VButton Content="e" 
+                                           SecondaryValue="3" 
+                                           Style="{StaticResource IOSDarkModeDefaultButtonStyle}" />
+                            <local:VButton Content="r" 
+                                           SecondaryValue="4" 
+                                           Style="{StaticResource IOSDarkModeDefaultButtonStyle}" />
+                            <local:VButton Content="t" 
+                                           SecondaryValue="5" 
+                                           Style="{StaticResource IOSDarkModeDefaultButtonStyle}" />
+                            <local:VButton Content="y" 
+                                           SecondaryValue="6" 
+                                           Style="{StaticResource IOSDarkModeDefaultButtonStyle}" />
+                            <local:VButton Content="u" 
+                                           SecondaryValue="7" 
+                                           Style="{StaticResource IOSDarkModeDefaultButtonStyle}" />
+                            <local:VButton Content="i" 
+                                           SecondaryValue="8" 
+                                           Style="{StaticResource IOSDarkModeDefaultButtonStyle}" />
+                            <local:VButton Content="o" 
+                                           SecondaryValue="9" 
+                                           Style="{StaticResource IOSDarkModeDefaultButtonStyle}" />
+                            <local:VButton Content="p" 
+                                           SecondaryValue="0" 
+                                           Style="{StaticResource IOSDarkModeDefaultButtonStyle}" />
+                            <local:VButton Style="{StaticResource IOSDarkModeSpecialButtonStyle}">
+                                <local:VButton.Content>
+                                    <Image Source="/Images/backspaceKey.png"
+                                           Style="{StaticResource DefaultIconSizeStyle}" />
+                                </local:VButton.Content>
+                            </local:VButton>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource KeyboardRow}">
+                            <local:VButton Content="a" 
+                                           SecondaryValue="@" 
+                                           Style="{StaticResource IOSDarkModeDefaultButtonStyle}" />
+                            <local:VButton Content="s" 
+                                           SecondaryValue="#" 
+                                           Style="{StaticResource IOSDarkModeDefaultButtonStyle}" />
+                            <local:VButton Content="d" 
+                                           SecondaryValue="$" 
+                                           Style="{StaticResource IOSDarkModeDefaultButtonStyle}" />
+                            <local:VButton Content="f" 
+                                           SecondaryValue="&amp;" 
+                                           Style="{StaticResource IOSDarkModeDefaultButtonStyle}" />
+                            <local:VButton Content="g" 
+                                           SecondaryValue="*" 
+                                           Style="{StaticResource IOSDarkModeDefaultButtonStyle}" />
+                            <local:VButton Content="h" 
+                                           SecondaryValue="(" 
+                                           Style="{StaticResource IOSDarkModeDefaultButtonStyle}" />
+                            <local:VButton Content="j" 
+                                           SecondaryValue=")" 
+                                           Style="{StaticResource IOSDarkModeDefaultButtonStyle}" />
+                            <local:VButton Content="k"
+                                           SecondaryValue="&apos;" 
+                                           Style="{StaticResource IOSDarkModeDefaultButtonStyle}" />
+                            <local:VButton Content="l" 
+                                           SecondaryValue="&quot;" 
+                                           Style="{StaticResource IOSDarkModeDefaultButtonStyle}" />
+                            <local:VButton Content="Done" 
+                                           Style="{StaticResource IOSDarkModeButtonStyle}" 
+                                           Width="140"
+                                           BackgroundPressed="#3b6bdb"
+                                           Foreground="#daeafd" />
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource KeyboardRow}">
+                            <local:VButton Style="{StaticResource IOSDarkModeSpecialButtonStyle}" 
+                                           Width="79">
+                                <local:VButton.Content>
+                                    <Image Source="/Images/shiftKey.png" 
+                                           Style="{StaticResource DefaultIconSizeStyle}" />
+                                </local:VButton.Content>
+                            </local:VButton>
+                            <local:VButton Content="z"
+                                           SecondaryValue="1" 
+                                           Style="{StaticResource IOSDarkModeDefaultLastRowButtonStyle}" />
+                            <local:VButton Content="x" 
+                                           SecondaryValue="2" 
+                                           Style="{StaticResource IOSDarkModeDefaultLastRowButtonStyle}" />
+                            <local:VButton Content="c" 
+                                           SecondaryValue="3" 
+                                           Style="{StaticResource IOSDarkModeDefaultLastRowButtonStyle}" />
+                            <local:VButton Content="v" 
+                                           SecondaryValue="4" 
+                                           Style="{StaticResource IOSDarkModeDefaultLastRowButtonStyle}" />
+                            <local:VButton Content="b" 
+                                           SecondaryValue="5" 
+                                           Style="{StaticResource IOSDarkModeDefaultLastRowButtonStyle}" />
+                            <local:VButton Content="n" 
+                                           SecondaryValue="6" 
+                                           Style="{StaticResource IOSDarkModeDefaultLastRowButtonStyle}" />
+                            <local:VButton Content="m" 
+                                           SecondaryValue="7" 
+                                           Style="{StaticResource IOSDarkModeDefaultLastRowButtonStyle}" />
+                            <local:VButton Content="," 
+                                           SecondaryValue="8" 
+                                           Style="{StaticResource IOSDarkModeDefaultLastRowButtonStyle}" />
+                            <local:VButton Content="." 
+                                           SecondaryValue="9"
+                                           Style="{StaticResource IOSDarkModeDefaultLastRowButtonStyle}" />
+                            <local:VButton Style="{StaticResource IOSDarkModeSpecialButtonStyle}"
+                                           Width="79">
+                                <local:VButton.Content>
+                                    <Image Source="/Images/shiftKey.png"
+                                           Style="{StaticResource DefaultIconSizeStyle}" />
+                                </local:VButton.Content>
+                            </local:VButton>
+                        </StackPanel>
+                        <StackPanel Style="{StaticResource KeyboardRow}">
+                            <local:VButton Content=".?123" 
+                                           Style="{StaticResource IOSDarkModeSpecialButtonStyle}" 
+                                           Width="79" />
+                            <local:VButton Style="{StaticResource IOSDarkModeSpecialButtonStyle}" 
+                                           Width="79">
+                                <local:VButton.Content>
+                                    <Image Source="/Images/emojiKey.png" 
+                                           Width="17" 
+                                           Height="17" />
+                                </local:VButton.Content>
+                            </local:VButton>
+                            <local:VButton Style="{StaticResource IOSDarkModeDefaultLastRowButtonStyle}"
+                                           Width="550" />
+                            <local:VButton Content=".?123"
+                                           Style="{StaticResource IOSDarkModeSpecialButtonStyle}"
+                                           Width="110" />
+                            <local:VButton Style="{StaticResource IOSDarkModeSpecialButtonStyle}"
+                                           Width="79">
+                                <local:VButton.Content>
+                                    <Image Source="/Images/hideKeyboardKey.png" 
+                                           Width="20"
+                                           Height="20" />
+                                </local:VButton.Content>
+                            </local:VButton>
+                        </StackPanel>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
